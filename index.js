@@ -1,23 +1,24 @@
-const express = require("express");
-const app = express(); /* metdo de express guardado en la variable app */
-const path = require('path')
-const PORT = 3001;
+/* const express = require("express");
+ *//* const app = express(); */ /* metdo de express guardado en la variable app */
+/* const path = require('path')
+const PORT = 3001; */
 
 /* middlware pequeñas funciones que se ejecutan entre la ruta y el controlador */
 /* use es un middleware */
-
+/* 
+me habilita el formato json
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, 'public'))) */
 
 
-let productos = [
+/* let productos = [
   { id: 1, nombre: "Celular", precio: 100 },
   {
     id: 2,
     nombre: "Tablet",
     precio: 200,
   },
-];
+]; */
 
 /* verbos http: GET-POST-PUT- DELETE */
 
@@ -27,7 +28,7 @@ let productos = [
     try{}catch{}
 } */
 
-app.get("/api/productos", (req, res) => {
+/* app.get("/api/productos", (req, res) => { */
   /* Request: es la peticion que el fron envia 
     el req tiene el req.body- req.params - el req.query
     el params se refiere al parametro , la ruta se modifica con dos puntos
@@ -37,7 +38,7 @@ app.get("/api/productos", (req, res) => {
     */
   /* Response: respuesta del back al front */
   /* la response se contruye con el status y el formato */
-  try {
+  /* try {
     const id = Number(req.query.id);
 
     if (id) {
@@ -46,11 +47,11 @@ app.get("/api/productos", (req, res) => {
     } else {
       res.status(200).json(productos);
     }
-  } catch (error) {
+  } catch (error) { */
     /* response- stauts-formato */
-    res.status(500).json(error);
+   /*  res.status(500).json(error);
   }
-});
+}); */
 
 /* URL PARA ID */
 
@@ -61,16 +62,16 @@ app.get("/api/productos", (req, res) => {
 });
  */
 /* post */
-app.post("/api/productos", (req, res) => {
-  try {
+/* app.post("/api/productos", (req, res) => {
+  try { */
     /* const datoProducto= req.body
      */
     /* const{nombre, precio}= req.body
      */
-    const nuevoProducto = {
+    /* const nuevoProducto = {
       id:
         productos[productos.length - 1].id +
-        1 /* obtener el ultimo array y le sume uno*/,
+        1  *//* obtener el ultimo array y le sume uno*//* ,
       ...req.body,
     };
     productos.push(nuevoProducto);
@@ -79,11 +80,11 @@ app.post("/api/productos", (req, res) => {
   } catch (error) {
     res.status(500).json(error);
   }
-});
+}); */
 
 /* PUT - editar */
 
-app.put("/api/productos/:idProducto", (req, res) => {
+/* app.put("/api/productos/:idProducto", (req, res) => {
   try {
     const id = Number(req.params.idProducto);
     const posicionProductoEnElArray = productos.findIndex(
@@ -115,4 +116,14 @@ app.delete("/api/productos/:idProducto", (req, res) => {
 
 app.listen(PORT, () => {
   console.log("server ok", PORT);
-});
+}); */
+
+
+
+/* EL INDEX LEVENTA EL SERVER UNICAMENTE */
+/* aca traigo la clase */
+const Server = require('./server/config')
+/* aca lo instancia */
+const server = new Server()
+/* aca lo ejecuto */
+server.listen()
