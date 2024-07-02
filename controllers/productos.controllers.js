@@ -1,25 +1,15 @@
-let productos = [
-    {
-      id: 1,
-      nombre: 'Celular',
-      precio: 100000
-    },
-    {
-      id: 2,
-      nombre: 'Tablet',
-      precio: 120000
-    }
-  ]
-  
+const serviciosProductos = require('../services/productos.services')
+
 
 const ObtenerUnProductoOTodosPorId = (req, res) => {
   try {
     const id = Number(req.query.id);
 
     if (id) {
-      const producto = productos.find((prod) => prod.id === id);
+      const producto = serviciosProductos.obtenerUnProducto
       res.status(200).json(producto);
     } else {
+      const productos = serviciosProductos.obtenerTodosLosProductos
       res.status(200).json(productos);
     }
   } catch (error) {
@@ -76,6 +66,7 @@ const EliminarUnProducto = (req, res) => {
     res.status(500).json(error);
   }
 };
+
 module.exports = {
   ObtenerUnProductoOTodosPorId,
   crearUnProducto,
