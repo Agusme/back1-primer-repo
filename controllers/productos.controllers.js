@@ -24,15 +24,10 @@ const crearUnProducto = (req, res) => {
      */
     /* const{nombre, precio}= req.body
      */
-    const nuevoProducto = {
-      id:
-        productos[productos.length - 1].id +
-        1 /* obtener el ultimo array y le sume uno*/,
-      ...req.body,
-    };
-    productos.push(nuevoProducto);
 
-    res.status(201).json(nuevoProducto);
+    const resultado = serviciosProductos.crearNuevoUnProducto(req.body)
+
+    res.status(201).json(resultado);
   } catch (error) {
     res.status(500).json(error);
   }
@@ -40,17 +35,9 @@ const crearUnProducto = (req, res) => {
 const editarUnProducto = (req, res) => {
   try {
     const id = Number(req.params.idProducto);
-    const posicionProductoEnElArray = productos.findIndex(
-      (producto) => producto.id === id
-    );
+    const productoActualizado = serviciosProductos.editarProducto(id)
 
-    const productoEditado = {
-      id,
-      ...req.body,
-    };
-    productos[posicionProductoEnElArray] = productoEditado;
-
-    res.status(200).json(productos[posicionProductoEnElArray]);
+    res.status(200).json(productoActualizado);
   } catch (error) {
     res.status(500).json(error);
   }
@@ -59,9 +46,11 @@ const editarUnProducto = (req, res) => {
 const EliminarUnProducto = (req, res) => {
   try {
     const id = Number(req.params.idProducto);
-    const prodNoBorrados = productos.filter((producto) => producto.id !== id);
-    productos = prodNoBorrados;
-    res.status(200).json(productos);
+serviciosProductos.eliminarProducto(id)
+if (res === 200){
+  res.status.json({msg: 'producto borrado'})
+}
+    res.status(200).json({});
   } catch (error) {
     res.status(500).json(error);
   }
