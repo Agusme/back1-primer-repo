@@ -1,7 +1,7 @@
+require('../database/config')
 const express = require('express');
 const path = require('path');
 const cors = require('cors')
-
 class Server {
   constructor() {
     this.app = express();

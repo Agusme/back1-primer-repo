@@ -1,4 +1,4 @@
-let productos = [
+/* let productos = [
   {
     id: 1,
     nombre: "Celular",
@@ -9,27 +9,32 @@ let productos = [
     nombre: "Tablet",
     precio: 120000,
   },
-];
+]; */
+const ProductoModel = require ('../models/producto.schema')
 
-const obtenerTodosLosProductos = () => {
-  return productos;
+const obtenerTodosLosProductos = async() => {
+const obtenerProductos = await ProductoModel.find()
+return obtenerProductos;
 };
 
-const obtenerUnProducto = (id) => {
-  const producto = productos.find((prod) => prod.id === id);
+const obtenerUnProducto = async(id) => {
+  const producto = await ProductoModel.findById({_id:id})
   return producto;
 };
 
-const crearNuevoUnProducto = () => {
+const crearNuevoUnProducto = (body) => {
   try {
-    const nuevoProducto = {
+ /*   const nuevoProducto = {
       id:
         productos[productos.length - 1].id +
-        1 /* obtener el ultimo array y le sume uno*/,
+        1 ,
       ...body,
     };
     productos.push(nuevoProducto);
-    return nuevoProducto;
+    return nuevoProducto; */
+    const newProduct = new ProductoModel(body);
+    console.log(newProduct)
+    return newProduct
   } catch (error) {
     console.log(error);
   }

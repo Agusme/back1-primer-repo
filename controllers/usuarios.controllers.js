@@ -3,7 +3,7 @@ const registrarUsuario = (req, res) => {
   try {
     const res = serviceUsuario.nuevoUsuario(req.body);
     if (res === 201) {
-      ///
+      res.status(201).json({msg: 'Usuario registrado con exito'})
     }
   } catch (error) {
     console.log(error);
@@ -11,7 +11,7 @@ const registrarUsuario = (req, res) => {
 };
 const obtenerTodosUsuarios = (req, res) => {
   try {
-    const usuarios = serviceUsuario.obtenerTodosUsuarios;
+    const usuarios = serviceUsuario.obtenerTodosLosUsuarios();
     res.status(200).json(usuarios);
   } catch (error) {
     console.log(error);
@@ -21,7 +21,6 @@ const obtenerTodosUsuarios = (req, res) => {
 const obtenerUnUsuario = (req, res) => {
   try {
     const usuario = serviceUsuario.obtenerUnUsuario(req.params.idUsuario);
-
     res.status(200).json({ msg: "usuario encontrado", usuario });
   } catch (error) {
     console.log(error);

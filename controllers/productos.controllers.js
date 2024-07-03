@@ -1,15 +1,14 @@
-const serviciosProductos = require('../services/productos.services')
+const serviciosProductos = require("../services/productos.services");
 
-
-const ObtenerUnProductoOTodosPorId = (req, res) => {
+const ObtenerUnProductoOTodosPorId = async (req, res) => {
   try {
     const id = Number(req.query.id);
 
     if (id) {
-      const producto = serviciosProductos.obtenerUnProducto
+      const producto = serviciosProductos.obtenerUnProducto(id);
       res.status(200).json(producto);
     } else {
-      const productos = serviciosProductos.obtenerTodosLosProductos
+      const productos = await serviciosProductos.obtenerTodosLosProductos();
       res.status(200).json(productos);
     }
   } catch (error) {
@@ -18,16 +17,18 @@ const ObtenerUnProductoOTodosPorId = (req, res) => {
   }
 };
 
-const crearUnProducto = (req, res) => {
+const crearUnProducto = async (req, res) => {
   try {
     /* const datoProducto= req.body
      */
     /* const{nombre, precio}= req.body
      */
 
-    const resultado = serviciosProductos.crearNuevoUnProducto(req.body)
-
-    res.status(201).json(resultado);
+    const nuevoProducto = await serviciosProductos.crearNuevoUnProducto(
+      req.body
+    );
+    await nuevoProducto.save();
+    res.status(201).json(nuevoProducto);
   } catch (error) {
     res.status(500).json(error);
   }
@@ -35,7 +36,7 @@ const crearUnProducto = (req, res) => {
 const editarUnProducto = (req, res) => {
   try {
     const id = Number(req.params.idProducto);
-    const productoActualizado = serviciosProductos.editarProducto(id)
+    const productoActualizado = serviciosProductos.editarProducto(id);
 
     res.status(200).json(productoActualizado);
   } catch (error) {
@@ -46,10 +47,10 @@ const editarUnProducto = (req, res) => {
 const EliminarUnProducto = (req, res) => {
   try {
     const id = Number(req.params.idProducto);
-serviciosProductos.eliminarProducto(id)
-if (res === 200){
-  res.status.json({msg: 'producto borrado'})
-}
+    serviciosProductos.eliminarProducto(id);
+    if (res === 200) {
+      res.status.json({ msg: "producto borrado" });
+    }
     res.status(200).json({});
   } catch (error) {
     res.status(500).json(error);
