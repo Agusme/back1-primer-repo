@@ -37,8 +37,9 @@ const router = express.Router();
         });
          */
 /* post */
-router.get("/", obtenerUnProductoPorIdOTodos)
 router.post("/", crearUnProducto);
+router.get("/", obtenerUnProductoPorIdOTodos)
+
 
 /* PUT - editar */
 
