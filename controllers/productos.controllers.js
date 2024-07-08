@@ -1,22 +1,20 @@
 const serviciosProductos = require("../services/productos.services");
 
-const ObtenerUnProductoOTodosPorId = async(req, res) => {
+const obtenerUnProductoPorIdOTodos = async(req, res) => {
   try {
-    const id = req.query.id;
-
+    const id = req.query.id 
+    
     if (id) {
-      const producto = await serviciosProductos.obtenerUnProducto(id);
-      res.status(200).json(producto);
+      const producto = await serviciosProductos.obtenerUnProducto(id)
+      res.status(200).json(producto)
     } else {
-      const productos = await serviciosProductos.obtenerTodosLosProductos();
-      res.status(200).json(productos);
+      const productos = await serviciosProductos.obtenerTodosLosProductos()
+      res.status(200).json(productos)
     }
   } catch (error) {
-    /* response- stauts-formato */
-    res.status(500).json(error);
+    res.status(500).json(error)
   }
-};
-
+}
 const crearUnProducto = async (req, res) => {
   try {
     /* const datoProducto= req.body
@@ -58,7 +56,7 @@ const EliminarUnProducto = async(req, res) => {
 };
 
 module.exports = {
-  ObtenerUnProductoOTodosPorId,
+  obtenerUnProductoPorIdOTodos,
   crearUnProducto,
   editarUnProducto,
   EliminarUnProducto,

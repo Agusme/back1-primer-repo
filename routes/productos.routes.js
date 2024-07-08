@@ -1,6 +1,6 @@
 const express = require("express");
 const {
-  ObtenerUnProductoOTodosPorId,
+  obtenerUnProductoPorIdOTodos,
   crearUnProducto,
   editarUnProducto,
   EliminarUnProducto,
@@ -15,7 +15,7 @@ const router = express.Router();
     try{}catch{}
 } */
 
-router.get("/", ObtenerUnProductoOTodosPorId);
+
 /* Request: es la peticion que el fron envia 
             el req tiene el req.body- req.params - el req.query
             el params se refiere al parametro , la ruta se modifica con dos puntos
@@ -35,6 +35,7 @@ router.get("/", ObtenerUnProductoOTodosPorId);
         });
          */
 /* post */
+router.get("/", obtenerUnProductoPorIdOTodos )
 router.post("/", crearUnProducto);
 
 /* PUT - editar */
