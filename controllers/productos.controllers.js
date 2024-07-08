@@ -1,6 +1,6 @@
 const serviciosProductos = require("../services/productos.services");
 
-const ObtenerUnProductoOTodosPorId = async (req, res) => {
+const ObtenerUnProductoOTodosPorId = async(req, res) => {
   try {
     const id = req.query.id;
 
