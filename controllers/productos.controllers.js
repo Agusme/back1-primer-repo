@@ -5,7 +5,7 @@ const ObtenerUnProductoOTodosPorId = async (req, res) => {
     const id = req.query.id;
 
     if (id) {
-      const producto = serviciosProductos.obtenerUnProducto(id);
+      const producto = await serviciosProductos.obtenerUnProducto(id);
       res.status(200).json(producto);
     } else {
       const productos = await serviciosProductos.obtenerTodosLosProductos();
