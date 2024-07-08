@@ -2,7 +2,7 @@ const serviciosProductos = require("../services/productos.services");
 
 const ObtenerUnProductoOTodosPorId = async (req, res) => {
   try {
-    const id = Number(req.query.id);
+    const id = req.query.id;
 
     if (id) {
       const producto = serviciosProductos.obtenerUnProducto(id);
@@ -33,10 +33,10 @@ const crearUnProducto = async (req, res) => {
     res.status(500).json(error);
   }
 };
-const editarUnProducto = (req, res) => {
+const editarUnProducto = async (req, res) => {
   try {
-    const id = Number(req.params.idProducto);
-    const productoActualizado = serviciosProductos.editarProducto(id);
+    const id = req.params.idProducto;
+    const productoActualizado = await serviciosProductos.editarProducto(id, req.body);
 
     res.status(200).json(productoActualizado);
   } catch (error) {
@@ -44,14 +44,14 @@ const editarUnProducto = (req, res) => {
   }
 };
 
-const EliminarUnProducto = (req, res) => {
+const EliminarUnProducto = async(req, res) => {
   try {
-    const id = Number(req.params.idProducto);
-    serviciosProductos.eliminarProducto(id);
+    const id = req.params.idProducto;
+ let res= await   serviciosProductos.eliminarProducto(id);
     if (res === 200) {
       res.status.json({ msg: "producto borrado" });
     }
-    res.status(200).json({});
+   
   } catch (error) {
     res.status(500).json(error);
   }

@@ -1,4 +1,4 @@
-const usuarios = [
+/* const usuarios = [
   {
     id: 1,
     nombreDeUsuario: "andres2024",
@@ -6,9 +6,13 @@ const usuarios = [
     contrasenia: "123456789",
   },
 ];
+ */
+const UsuarioModel = require("../models/usuario.schema");
 
-const nuevoUsuario = (body) => {
-  try {
+const bcrypt= require('bcrypt')
+
+const nuevoUsuario = async (body) => {
+  /*  try {
     const emailExiste = usuarios.find(
       (usuario) => usuario.emailDelUsuario === body.emailDelUsuario
     );
@@ -23,11 +27,34 @@ const nuevoUsuario = (body) => {
     const id = crypto.randomUUID();
     usuarios.push({ id, baja: false, ...body });
 
+    return 201; 
+  } catch (error) {
+    console.log(error);
+  }*/
+
+  try {
+    let salt = bcrypt.genSaltSync();
+    body.contrasenia = bcrypt.hashSync(body.contrasenia, salt)
+    const usuario = new UsuarioModel(body);
+    await usuario.save();
     return 201;
   } catch (error) {
     console.log(error);
   }
 };
+
+const inicioSesion =async (body)=>{
+try {
+  
+
+} catch (error) {
+  console.log(error)
+}
+}
+
+
+
+
 
 const obtenerTodosLosUsuarios = () => {
   try {
@@ -51,7 +78,8 @@ const obtenerUnUsuario = (idUsuario) => {
 
 const bajaUsuarioFisica = (IdUsuario) => {
   const posicionDelUsuario = usuarios.findIndex(
-    (usuario) => usuario.id === idUsuario);
+    (usuario) => usuario.id === idUsuario
+  );
   usuarios.splice(posicionDelUsuario, 1);
   return 200;
 };
@@ -73,4 +101,5 @@ module.exports = {
   obtenerUnUsuario,
   bajaUsuarioFisica,
   bajaUsuarioLogica,
+  inicioSesion
 };

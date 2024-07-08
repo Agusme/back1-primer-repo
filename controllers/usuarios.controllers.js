@@ -1,14 +1,38 @@
 const serviceUsuario = require("../services/usuarios.services");
-const registrarUsuario = (req, res) => {
-  try {
+
+
+const registrarUsuario = async(req, res) => {
+  /* try {
     const res = serviceUsuario.nuevoUsuario(req.body);
     if (res === 201) {
       res.status(201).json({msg: 'Usuario registrado con exito'})
     }
   } catch (error) {
     console.log(error);
+  } */
+try {
+  const result = await serviceUsuario.nuevoUsuario(req.body)
+if(result === 201){
+  res.status(201).json({msg:'Usuario registrado'})
+}
+
+} catch (error) {
+  console.log(error)
+}
+}
+ 
+/* INICIAR */
+const iniciarSesionUsuario = async (req, res)=>{
+  try {
+    const usuario = await serviceUsuario.inicioSesion(req.body)
+  } catch (error) {
+    console.log(error)
   }
-};
+}
+
+
+
+
 const obtenerTodosUsuarios = (req, res) => {
   try {
     const usuarios = serviceUsuario.obtenerTodosLosUsuarios();
