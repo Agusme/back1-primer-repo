@@ -122,6 +122,7 @@ app.listen(PORT, () => {
 
 /* EL INDEX LEVENTA EL SERVER UNICAMENTE */
 /* aca traigo la clase */
+require('dotenv').config();
 const Server = require('./server/config')
 /* aca lo instancia */
 const server = new Server()
