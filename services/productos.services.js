@@ -33,7 +33,6 @@ const crearNuevoUnProducto = (body) => {
     productos.push(nuevoProducto);
     return nuevoProducto; */
     const newProduct = new ProductoModel(body);
-    console.log(newProduct);
     return newProduct;
   } catch (error) {
     console.log(error);
