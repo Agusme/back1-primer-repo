@@ -13,11 +13,11 @@
 const ProductoModel = require("../models/producto.schema");
 
 const obtenerTodosLosProductos = async() => {
-  const obtenerProductos = await ProductModel.find()
+  const obtenerProductos = await ProductoModel.find()
   return obtenerProductos
 }
 const obtenerUnProducto = async(id) => {
-  const producto = await ProductModel.findById({_id: id})
+  const producto = await ProductoModel.findById({_id: id})
   return producto
 }
 

@@ -13,7 +13,7 @@ const ProductSchema = new mongoose.Schema({
   precio:{
     type: Number,
     required: true
-  }
+  },
 });
 
 const ProductoModel = mongoose.model("product", ProductSchema);
