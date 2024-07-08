@@ -15,8 +15,8 @@ class Server {
     this.app.use(express.json());
     this.app.use(express.static(path.join(__dirname, "public")));
     this.app.use(cors());
-    this.app.use(morgan('dev'))
-  }
+
+this.app.use(('dev'))  }
   routes() {
     this.app.use("/api/productos", require("../routes/productos.routes"));
     this.app.use("/api/usuarios", require("../routes/usuarios.routes"));
