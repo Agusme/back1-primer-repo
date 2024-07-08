@@ -6,7 +6,7 @@ const morgan = require("morgan");
 class Server {
   constructor() {
     this.app = express();
-    this.port = process.env.PORT || 3004;
+    this.port = process.env.PORT || 8080;
     this.middleware();
     this.routes();
   }
