@@ -1,11 +1,12 @@
 const express = require("express");
+const router = express.Router();
+
 const {
   obtenerUnProductoPorIdOTodos,
   crearUnProducto,
   editarUnProducto,
   EliminarUnProducto,
 } = require("../controllers/productos.controllers");
-const router = express.Router();
 
 /*PETICIONES verbos http: GET-POST-PUT- DELETE */
 
