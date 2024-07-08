@@ -28,6 +28,7 @@ const crearUnProducto = async (req, res) => {
     await nuevoProducto.save();
     res.status(201).json(nuevoProducto);
   } catch (error) {
+    console.error("Error en obtenerUnProductoPorIdOTodos:", error);
     res.status(500).json(error);
   }
 };
