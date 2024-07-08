@@ -12,13 +12,13 @@
 ]; */
 const ProductoModel = require("../models/producto.schema");
 
-const obtenerTodosLosProductos = async () => {
+const obtenerTodosLosProductos = async() => {
   const obtenerProductos = await ProductoModel.find();
   return obtenerProductos;
 };
 
-const obtenerUnProducto = async (id) => {
-  const producto = await ProductoModel.findById({ _id: id });
+const obtenerUnProducto = async(id) => {
+  const producto = await ProductoModel.findById({ _id: id});
   return producto;
 };
 
