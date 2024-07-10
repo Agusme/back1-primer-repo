@@ -1,20 +1,25 @@
 const serviciosProductos = require("../services/productos.services");
 
-const obtenerUnProductoPorIdOTodos = async(req, res) => {
+const obtenerUnProductoPorIdOTodos = async (req, res) => {
   try {
-    const id = req.query.id ;
-    
+    const id = req.query.id;
+
     if (id) {
       const producto = await serviciosProductos.obtenerUnProducto(id);
-      res.status(200).json(producto);
+      if (producto) {
+        res.status(200).json(producto);
+      } else {
+        res.status(404).json({ message: "Producto no encontrado" });
+      }
     } else {
       const productos = await serviciosProductos.obtenerTodosLosProductos();
       res.status(200).json(productos);
     }
   } catch (error) {
-    res.status(500).json(error);
+    console.error("Error en obtenerUnProductoPorIdOTodos:", error);
+    res.status(500).json({ message: "Error al obtener los productos" });
   }
-}
+};
 const crearUnProducto = async (req, res) => {
   try {
     /* const datoProducto= req.body
@@ -35,7 +40,10 @@ const crearUnProducto = async (req, res) => {
 const editarUnProducto = async (req, res) => {
   try {
     const id = req.params.idProducto;
-    const productoActualizado = await serviciosProductos.editarProducto(id, req.body);
+    const productoActualizado = await serviciosProductos.editarProducto(
+      id,
+      req.body
+    );
 
     res.status(200).json(productoActualizado);
   } catch (error) {
@@ -43,14 +51,13 @@ const editarUnProducto = async (req, res) => {
   }
 };
 
-const EliminarUnProducto = async(req, res) => {
+const EliminarUnProducto = async (req, res) => {
   try {
     const id = req.params.idProducto;
- let res= await   serviciosProductos.eliminarProducto(id);
+    let res = await serviciosProductos.eliminarProducto(id);
     if (res === 200) {
       res.status.json({ msg: "producto borrado" });
     }
-   
   } catch (error) {
     res.status(500).json(error);
   }

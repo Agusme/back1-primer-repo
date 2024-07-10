@@ -12,14 +12,15 @@
 ]; */
 const ProductoModel = require("../models/producto.schema");
 
-const obtenerTodosLosProductos = async() => {
-  const obtenerProductos = await ProductoModel.find()
-  return obtenerProductos
-}
-const obtenerUnProducto = async(id) => {
-  const producto = await ProductoModel.findById({_id: id})
-  return producto
-}
+const obtenerTodosLosProductos = async () => {
+  const obtenerProductos = await ProductoModel.find();
+  return obtenerProductos;
+};
+
+const obtenerUnProducto = async (id) => {
+  const producto = await ProductoModel.findById(id);
+  return producto;
+};
 
 const crearNuevoUnProducto = (body) => {
   try {
@@ -70,7 +71,7 @@ const eliminarProducto = async (idProducto) => {
     productos.splice(posicionProductoEnElArray, 1);
     return 200; */
   try {
-    await ProductoModel.findByIdAndDelete({ _id: idProducto });
+    await ProductoModel.findByIdAndDelete({_id: idProducto});
     return 200;
   } catch (error) {
     console.log(error);

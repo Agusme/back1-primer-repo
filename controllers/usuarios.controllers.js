@@ -22,39 +22,42 @@ if(result === 201){
 }
  
 /* INICIAR */
-const iniciarSesionUsuario = async (req, res)=>{
+const iniciarSesionUsuario= async (req, res)=>{
   try {
-    const usuario = await serviceUsuario.inicioSesion(req.body)
+    const result = await serviceUsuario.inicioSesion(req.body)
+
+    if(result === 400){
+      res.status(400).json({msg:'Usuario y/o contraseña incorrecto'})
+    }else{
+      res.status(200).json({msg:'Usuario inicio sesion'})
+    }
   } catch (error) {
     console.log(error)
   }
 }
 
-
-
-
-const obtenerTodosUsuarios = (req, res) => {
+const obtenerTodosUsuarios = async (req, res) => {
   try {
-    const usuarios = serviceUsuario.obtenerTodosLosUsuarios();
+    const usuarios = await serviceUsuario.obtenerTodosLosUsuarios();
     res.status(200).json(usuarios);
   } catch (error) {
     console.log(error);
   }
 };
 
-const obtenerUnUsuario = (req, res) => {
+const obtenerUnUsuario = async (req, res) => {
   try {
-    const usuario = serviceUsuario.obtenerUnUsuario(req.params.idUsuario);
+    const usuario = await serviceUsuario.obtenerUnUsuario(req.params.idUsuario);
     res.status(200).json({ msg: "usuario encontrado", usuario });
   } catch (error) {
     console.log(error);
   }
 };
 
-const bajaFisicaUsuario = (req, res) => {
+const bajaFisicaUsuario = async (req, res) => {
   try {
-    const res = serviceUsuario.bajaUsuarioFisica(req.params.idUsuario);
-    if (res === 200) {
+    const resultado = await serviceUsuario.bajaUsuarioFisica(req.params.idUsuario);
+    if (resultado === 200) {
       res.status(200).json({ msg: "Usuario borrado con exito" });
     }
   } catch (error) {
@@ -62,10 +65,10 @@ const bajaFisicaUsuario = (req, res) => {
   }
 };
 
-const bajaLogicaUsuario = (req, res) => {
+const bajaLogicaUsuario = async(req, res) => {
   try {
-    const res = serviceUsuario.bajaUsuarioLogica(req.params.idUsuario);
-    res.status(200).json({ msg: res });
+    const usuario = await serviceUsuario.bajaUsuarioLogica(req.params.idUsuario);
+    res.status(200).json({ msg: usuario});
   } catch (error) {
     console.log(error);
   }
@@ -73,6 +76,7 @@ const bajaLogicaUsuario = (req, res) => {
 
 module.exports = {
   registrarUsuario,
+  iniciarSesionUsuario,
   obtenerTodosUsuarios,
   obtenerUnUsuario,
   bajaFisicaUsuario,
