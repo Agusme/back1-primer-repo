@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const UsuarioModel = require("./usuario.schema");
 
 const ProductSchema = new mongoose.Schema({
   nombre: {
@@ -15,6 +16,7 @@ const ProductSchema = new mongoose.Schema({
     required: true
   },
 });
+
 
 const ProductoModel = mongoose.model("product", ProductSchema);
 module.exports = ProductoModel;

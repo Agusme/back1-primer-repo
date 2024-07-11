@@ -3,9 +3,11 @@ const serviciosProductos = require("../services/productos.services");
 
 const obtenerUnProductoPorIdOTodos = async (req, res) => {
   try {
-    const id = req.query.id;
+    const id = req.query.id
+const limit = req.query.limit || 10
+const to = req.query.to || 0
 
-    if (id) {
+if (id) {
       const producto = await serviciosProductos.obtenerUnProducto(id);
       if (producto) {
         res.status(200).json(producto);
@@ -13,7 +15,7 @@ const obtenerUnProductoPorIdOTodos = async (req, res) => {
         res.status(404).json({ message: "Producto no encontrado" });
       }
     } else {
-      const productos = await serviciosProductos.obtenerTodosLosProductos();
+      const productos = await serviciosProductos.obtenerTodosLosProductos(limit, to);
       res.status(200).json(productos);
     }
   } catch (error) {
@@ -28,7 +30,7 @@ const crearUnProducto = async (req, res) => {
     /* const{nombre, precio}= req.body
      */
 const {errors} = validationResult(req)
-if(errors.lenght){
+if(errors.length){
   return res.status(400).json({msg: errors[0].msg})
 }
     const nuevoProducto = await serviciosProductos.crearNuevoUnProducto(
@@ -44,7 +46,7 @@ if(errors.lenght){
 const editarUnProducto = async (req, res) => {
   
   const {errors} = validationResult(req)
-if(errors.lenght){
+if(errors.length){
   return res.status(400).json({msg: errors[0].msg})
 }
   

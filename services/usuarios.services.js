@@ -44,6 +44,11 @@ const nuevoUsuario = async (body) => {
     let salt = bcrypt.genSaltSync();
     body.contrasenia = bcrypt.hashSync(body.contrasenia, salt);
 
+    if (body.rol !== "usuario" && body.rol !== "admin") {
+      return 409; /* es de conflicto */
+    } else if (result === 409) {
+      res.status(409).json({ msg: "error al crear: rol incorrecto" });
+    }
     const usuario = new UsuarioModel(body);
     await usuario.save();
     return 201;
@@ -52,41 +57,43 @@ const nuevoUsuario = async (body) => {
   }
 };
 
-const inicioSesion = async(body) => {
+const inicioSesion = async (body) => {
   try {
-  
-    const usuarioExiste = await UsuarioModel.findOne({nombreUsuario: body.nombreUsuario})
-    if(!usuarioExiste){
-      return 400
+    const usuarioExiste = await UsuarioModel.findOne({
+      nombreUsuario: body.nombreUsuario,
+    });
+    if (!usuarioExiste) {
+      return 400;
     }
 
     /* verificacion contrasenia */
-    const verificacionContrasenia = bcrypt.compareSync(body.contrasenia, usuarioExiste.contrasenia)
-  
-    if(verificacionContrasenia){
-      return 200
-    }else{
-      return 400
+    const verificacionContrasenia = bcrypt.compareSync(
+      body.contrasenia,
+      usuarioExiste.contrasenia
+    );
+
+    if (verificacionContrasenia) {
+      return 200;
+    } else {
+      return 400;
     }
-  
-    
-    
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
+};
+const obtenerTodosLosUsuarios = async () => {
+  try {
+    const usuarios = await UsuarioModel.find();
+    return usuarios;
+  } catch (error) {
+    console.log(error);
   }
-  const obtenerTodosLosUsuarios = async () => {
-    try {
-      const usuarios = await UsuarioModel.find()
-      return usuarios
-    } catch (error) {
-      console.log(error)
-    }
-  }
+};
 
 const obtenerUnUsuario = async (idUsuario) => {
   try {
-    const usuario = await usuarios.find((user) => user.id === idUsuario);
+    const usuario = await UsuarioModel.findById(idUsuario);
+    (user) => user.id === idUsuario;
 
     return usuario;
   } catch (error) {
@@ -97,19 +104,21 @@ const obtenerUnUsuario = async (idUsuario) => {
 //baja fisica
 
 const bajaUsuarioFisica = async (idUsuario) => {
-
-  await UsuarioModel.findByIdAndDelete({ _id: idUsuario})
-  return 200
-}
+  await UsuarioModel.findByIdAndDelete({ _id: idUsuario });
+  return 200;
+};
 
 const bajaUsuarioLogica = async (idUsuario) => {
-  const usuario = await UsuarioModel.findOne({ _id: idUsuario })
-  usuario.bloqueado = !usuario.bloqueado
+  const usuario = await UsuarioModel.findOne({ _id: idUsuario });
+  usuario.bloqueado = !usuario.bloqueado;
 
-  const actualizarUsuario = await UsuarioModel.findByIdAndUpdate({ _id: idUsuario }, usuario, { new: true })
-  return actualizarUsuario
-}
-
+  const actualizarUsuario = await UsuarioModel.findByIdAndUpdate(
+    { _id: idUsuario },
+    usuario,
+    { new: true }
+  );
+  return actualizarUsuario;
+};
 
 module.exports = {
   nuevoUsuario,
@@ -117,5 +126,5 @@ module.exports = {
   obtenerTodosLosUsuarios,
   obtenerUnUsuario,
   bajaUsuarioFisica,
-  bajaUsuarioLogica
-}
+  bajaUsuarioLogica,
+};

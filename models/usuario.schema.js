@@ -14,6 +14,7 @@ const UsuarioSchema = new Schema({
     },
     rol:{
         type: String,
+        enum:['usuario', `admin`],
         default: 'usuario',
     },
 
@@ -22,6 +23,12 @@ const UsuarioSchema = new Schema({
         default: false
     }
 })
+
+/* PARA SACAR LA CONTRASEÑA U OTRO DATO */
+UsuarioSchema.methods.toJSON = function(){
+        const { contrasenia,  __v , ...usuario } = this.toObject() 
+return usuario
+}
 
 const UsuarioModel = model('user', UsuarioSchema)
 module.exports= UsuarioModel
