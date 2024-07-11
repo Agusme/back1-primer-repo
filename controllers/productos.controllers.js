@@ -1,3 +1,4 @@
+const { validationResult } = require("express-validator");
 const serviciosProductos = require("../services/productos.services");
 
 const obtenerUnProductoPorIdOTodos = async (req, res) => {
@@ -26,7 +27,10 @@ const crearUnProducto = async (req, res) => {
      */
     /* const{nombre, precio}= req.body
      */
-
+const {errors} = validationResult(req)
+if(errors.lenght){
+  return res.status(400).json({msg: errors[0].msg})
+}
     const nuevoProducto = await serviciosProductos.crearNuevoUnProducto(
       req.body
     );
@@ -38,6 +42,12 @@ const crearUnProducto = async (req, res) => {
   }
 };
 const editarUnProducto = async (req, res) => {
+  
+  const {errors} = validationResult(req)
+if(errors.lenght){
+  return res.status(400).json({msg: errors[0].msg})
+}
+  
   try {
     const id = req.params.idProducto;
     const productoActualizado = await serviciosProductos.editarProducto(

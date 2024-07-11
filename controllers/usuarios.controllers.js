@@ -1,5 +1,5 @@
 const serviceUsuario = require("../services/usuarios.services");
-
+const {validationResult} = require('express-validator')
 
 const registrarUsuario = async(req, res) => {
   /* try {
@@ -11,6 +11,11 @@ const registrarUsuario = async(req, res) => {
     console.log(error);
   } */
 try {
+  const { errors} = validationResult(req) 
+ 
+  if(errors.length){
+return res.status(400).json({msg:errors[0].msg})
+  }
   const result = await serviceUsuario.nuevoUsuario(req.body)
 if(result === 201){
   res.status(201).json({msg:'Usuario registrado'})
@@ -24,6 +29,7 @@ if(result === 201){
 /* INICIAR */
 const iniciarSesionUsuario= async (req, res)=>{
   try {
+    
     const result = await serviceUsuario.inicioSesion(req.body)
 
     if(result === 400){
@@ -38,6 +44,10 @@ const iniciarSesionUsuario= async (req, res)=>{
 
 const obtenerTodosUsuarios = async (req, res) => {
   try {
+    const {errors} = validationResult(req)
+    if(errors.length){
+      return res.status(400).json({msg: errors[0].msg})
+    }
     const usuarios = await serviceUsuario.obtenerTodosLosUsuarios();
     res.status(200).json(usuarios);
   } catch (error) {

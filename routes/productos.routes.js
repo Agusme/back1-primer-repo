@@ -6,6 +6,7 @@ const {
   editarUnProducto,
   EliminarUnProducto,
 } = require("../controllers/productos.controllers");
+const { check } = require("express-validator");
 
 const router = express.Router();
 
@@ -37,13 +38,21 @@ const router = express.Router();
         });
          */
 /* post */
-router.post("/", crearUnProducto);
+router.post("/",[
+check('nombre', "campo nombre vacio").not().isEmpty(),
+check('precio', "campo precio vacio").not().isEmpty(),
+check('descripcion', "campo descripcion vacio").not().isEmpty(),
+
+], crearUnProducto);
 router.get("/", obtenerUnProductoPorIdOTodos)
 
 
 /* PUT - editar */
 
-router.put("/:idProducto", editarUnProducto);
+router.put("/:idProducto",check('nombre', "campo nombre vacio").not().isEmpty(),
+check('precio', "campo precio vacio").not().isEmpty(),
+check('descripcion', "campo descripcion vacio").not().isEmpty(),
+ editarUnProducto);
 
 router.delete("/:idProducto", EliminarUnProducto);
 
