@@ -14,8 +14,8 @@ const UsuarioSchema = new Schema({
     },
     rol:{
         type: String,
-        enum:['usuario', `admin`],
         default: 'usuario',
+        enum:['usuario', 'admin'],
     },
 
     bloqueado:{

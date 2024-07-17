@@ -1,5 +1,6 @@
 const express = require("express");
-
+const auth = require('../middlewares/auth')
+const router = express.Router();
 const {
   obtenerUnProductoPorIdOTodos,
   crearUnProducto,
@@ -8,7 +9,7 @@ const {
 } = require("../controllers/productos.controllers");
 const { check } = require("express-validator");
 
-const router = express.Router();
+
 
 /*PETICIONES verbos http: GET-POST-PUT- DELETE */
 
@@ -17,7 +18,6 @@ const router = express.Router();
 /* app.get('/api/productos'),(req,res)=> {
     try{}catch{}
 } */
-
 
 /* Request: es la peticion que el fron envia 
             el req tiene el req.body- req.params - el req.query
@@ -38,22 +38,29 @@ const router = express.Router();
         });
          */
 /* post */
-router.post("/",[
-check('nombre', "campo nombre vacio").not().isEmpty(),
-check('precio', "campo precio vacio").not().isEmpty(),
-check('descripcion', "campo descripcion vacio").not().isEmpty(),
-
-], crearUnProducto);
-router.get("/", obtenerUnProductoPorIdOTodos)
-
+router.post(
+  "/",
+  [
+    check("nombre", "campo nombre vacio").not().isEmpty(),
+    check("precio", "campo precio vacio").not().isEmpty(),
+    check("descripcion", "campo descripcion vacio").not().isEmpty(),
+  ],
+  auth("admin"),
+  crearUnProducto
+);
+router.get("/", obtenerUnProductoPorIdOTodos);
 
 /* PUT - editar */
 
-router.put("/:idProducto",check('nombre', "campo nombre vacio").not().isEmpty(),
-check('precio', "campo precio vacio").not().isEmpty(),
-check('descripcion', "campo descripcion vacio").not().isEmpty(),
- editarUnProducto);
+router.put("/:idProducto",
+  [
+    check("nombre", "campo nombre vacio").not().isEmpty(),
+    check("precio", "campo precio vacio").not().isEmpty(),
+    check("descripcion", "campo descripcion vacio").not().isEmpty(),
+  ],
+  auth("admin"),
+  editarUnProducto);
 
-router.delete("/:idProducto", EliminarUnProducto);
+router.delete("/:idProducto", auth('admin'), EliminarUnProducto);
 
 module.exports = router;

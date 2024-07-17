@@ -8,8 +8,9 @@
 ];
  */
 const UsuarioModel = require("../models/usuario.schema");
-
 const bcrypt = require("bcrypt");
+const jwt = require('jsonwebtoken');
+const { registroUsuario } = require("../helpers/mensajes");
 
 const nuevoUsuario = async (body) => {
   /*  try {
@@ -39,19 +40,17 @@ const nuevoUsuario = async (body) => {
     if (usuarioExiste) {
       return 400;
     }
+    if (body.rol !== 'usuario'&& body.rol !== 'admin'){
+      return 409
+    }
 
     /* PARA ENCRIPTAR LA CONTRASEÑA */
     let salt = bcrypt.genSaltSync();
     body.contrasenia = bcrypt.hashSync(body.contrasenia, salt);
-
-    if (body.rol !== "usuario" && body.rol !== "admin") {
-      return 409; /* es de conflicto */
-    } else if (result === 409) {
-      res.status(409).json({ msg: "error al crear: rol incorrecto" });
-    }
-    const usuario = new UsuarioModel(body);
-    await usuario.save();
-    return 201;
+registroUsuario()
+    const usuario = new UsuarioModel(body)
+    await usuario.save()
+    return 201
   } catch (error) {
     console.log(error);
   }
@@ -63,7 +62,7 @@ const inicioSesion = async (body) => {
       nombreUsuario: body.nombreUsuario,
     });
     if (!usuarioExiste) {
-      return 400;
+      return {code:400};
     }
 
     /* verificacion contrasenia */
@@ -73,9 +72,18 @@ const inicioSesion = async (body) => {
     );
 
     if (verificacionContrasenia) {
-      return 200;
+      const payload = {
+        _id: usuarioExiste._id,
+        rol: usuarioExiste.rol,
+        bloqueado: usuarioExiste.bloqueado
+      };
+      const token =jwt.sign(payload, process.env.JWT_SECRET /* {expiresIn:'1m'} */)
+      return {
+        code:200,
+        token
+      };
     } else {
-      return 400;
+      return {code: 400};
     }
   } catch (error) {
     console.log(error);

@@ -1,6 +1,6 @@
+const { token } = require("morgan");
 const serviceUsuario = require("../services/usuarios.services");
 const { validationResult } = require("express-validator");
-
 const registrarUsuario = async (req, res) => {
   /* try {
     const res = serviceUsuario.nuevoUsuario(req.body);
@@ -18,6 +18,8 @@ const registrarUsuario = async (req, res) => {
     const result = await serviceUsuario.nuevoUsuario(req.body);
     if (result === 201) {
       res.status(201).json({ msg: "Usuario registrado" });
+    }else if(result===409){
+      res.status(409).json({msg:'Error al crear: Rol incorrecto. Solo se puede ser usuario o admin'})
     }
   } catch (error) {
     console.log(error);
@@ -29,10 +31,10 @@ const iniciarSesionUsuario = async (req, res) => {
   try {
     const result = await serviceUsuario.inicioSesion(req.body);
 
-    if (result === 400) {
+    if (result.code === 400) {
       res.status(400).json({ msg: "Usuario y/o contraseña incorrecto" });
     } else {
-      res.status(200).json({ msg: "Usuario inicio sesion" });
+      res.status(200).json({ msg: "Usuario inicio sesion", token: result.token});
     }
   } catch (error) {
     console.log(error);
