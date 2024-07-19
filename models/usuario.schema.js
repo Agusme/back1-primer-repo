@@ -21,6 +21,12 @@ const UsuarioSchema = new Schema({
     bloqueado:{
         type: Boolean,
         default: false
+    },
+    idCarrito:{
+        type:String,
+    },
+    idFavorito:{
+        type:String,
     }
 })
 

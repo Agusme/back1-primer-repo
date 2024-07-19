@@ -6,8 +6,11 @@ const {
   crearUnProducto,
   editarUnProducto,
   EliminarUnProducto,
+  agregarImagenProductoPorId,
+  buscarProductoPorTermino,
 } = require("../controllers/productos.controllers");
 const { check } = require("express-validator");
+const multer = require("../middlewares/multer");
 
 
 
@@ -45,9 +48,12 @@ router.post(
     check("precio", "campo precio vacio").not().isEmpty(),
     check("descripcion", "campo descripcion vacio").not().isEmpty(),
   ],
-  auth("admin"),
   crearUnProducto
 );
+
+router.post('/agregarImagen/:idProducto',multer.single('imagen'), agregarImagenProductoPorId)
+/* query- {{url}}/api/productos/buscar?termino=Ultimo */
+router.get('/buscar', buscarProductoPorTermino)
 router.get("/", obtenerUnProductoPorIdOTodos);
 
 /* PUT - editar */

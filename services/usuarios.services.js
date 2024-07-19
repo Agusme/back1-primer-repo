@@ -11,6 +11,8 @@ const UsuarioModel = require("../models/usuario.schema");
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const { registroUsuario } = require("../helpers/mensajes");
+const FavoritoModel = require("../models/favoritos.schema");
+const CarritoModel = require("../models/modelo.schema");
 
 const nuevoUsuario = async (body) => {
   /*  try {
@@ -48,8 +50,17 @@ const nuevoUsuario = async (body) => {
     let salt = bcrypt.genSaltSync();
     body.contrasenia = bcrypt.hashSync(body.contrasenia, salt);
 registroUsuario()
+
+
     const usuario = new UsuarioModel(body)
-    await usuario.save()
+    const carrito = new CarritoModel({idUsuario:usuario._id})
+const favoritos = new FavoritoModel({idUsuario:usuario._id})
+   
+usuario.idCarrito = carrito._id
+usuario.idFavoritos= favoritos._id
+await carrito.save()
+await favoritos.save()
+await usuario.save()
     return 201
   } catch (error) {
     console.log(error);
