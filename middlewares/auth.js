@@ -1,30 +1,29 @@
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken')
 
-/* ASI TAMBIEN SE PUEDE EXPORTAR UNA FUNCION, Y COMO ES ANONIMA SE LLAMA COMO EL ARCIHVIO */
 module.exports = (rol) => (req, res, next) => {
+  /* headers -  body - query - params */
+  const token = req.header('auth')
+
+  if (!token) {
+    return res.status(409).json({ msg: 'Token incorrecto' })
+  }
+
   try {
-    /* en la req tenemos el headers-  body- query -params */
-    /* debemos recibir el token */
-
-    const token = req.header("auth");
-
-    if (!token) {
-      return res.status(409).json({ msg: "Token incorrecto" });
-    }
-
-    const verify = jwt.verify(token, process.env.JWT_SECRET);
-    console.log(verify);
-    /* el include devuelve un booleano mme va decir si en alguna aprte tiene la palabra invalid */
-  /*   if (verify.includes("invalid")) {
-      return res.status(400).json({ msg: "Token incorrecto" });
-    } */
+    
+    const verify = jwt.verify(token, process.env.JWT_SECRET)
 
     if (rol === verify.rol) {
-      return next();
+      req.idUsuario = verify._id
+      return next()
     } else {
-      return res.status(401).json({ msg: "no tenes acceso" });
+      return res.status(401).json({ msg: 'No tenes acceso' })
     }
+
+
   } catch (error) {
-    console.log(error);
+    if(error.name === 'JsonWebTokenError'){
+      res.status(500).json({msg:'token incorrecto'})
+    }
+    console.log(error)
   }
-};
+}

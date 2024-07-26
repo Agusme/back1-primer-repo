@@ -21,6 +21,8 @@ class Server {
   routes() {
     this.app.use("/api/productos", require("../routes/productos.routes"));
     this.app.use("/api/usuarios", require("../routes/usuarios.routes"));
+    this.app.use("/api/categorias", require("../routes/categorias.routes"));
+
   }
   /* llama al listen de expres que permite levantar el servidor */
   listen() {
